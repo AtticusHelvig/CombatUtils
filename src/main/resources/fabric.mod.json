@@ -1,0 +1,32 @@
+{
+	"schemaVersion": 1,
+	"id": "combat_utilities",
+	"version": "${version}",
+	"name": "Combat Utils",
+	"description": "Configurable armor protection multipliers.",
+	"authors": [
+		"A. Helvig"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/combat-utilities",
+		"sources": "https://github.com/AtticusHelvig/CombatUtils"
+	},
+	"license": "MIT",
+	"icon": "assets/combat_utilities/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.atticus.combat_utilities.CombatUtilities"
+		]
+	},
+	"mixins": [
+		"combat_utilities.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.20.6",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {}
+}

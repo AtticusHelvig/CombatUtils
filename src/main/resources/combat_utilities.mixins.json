@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "package": "net.atticus.combat_utilities.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BowItemMixin",
+    "CrossbowItemMixin",
+    "EndCrystalEntityMixin",
+    "EnderPearlEntityMixin",
+    "LivingEntityMixin",
+    "MobEntityMixin",
+    "PersistentProjectileEntityMixin",
+    "PlayerEntityMixin",
+    "RangedWeaponItemMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "ModelPredicateProviderRegistryMixin"
+  ]
+}
