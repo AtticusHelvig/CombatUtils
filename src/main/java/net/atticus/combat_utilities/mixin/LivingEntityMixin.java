@@ -1,5 +1,6 @@
 package net.atticus.combat_utilities.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.atticus.combat_utilities.enchantment.ModEnchantmentHelper;
 import net.minecraft.entity.damage.DamageTypes;
 import org.apache.commons.lang3.mutable.MutableFloat;
@@ -24,7 +25,8 @@ import net.minecraft.enchantment.EnchantmentHelper;
 public abstract class LivingEntityMixin extends Entity {
     @Shadow protected abstract boolean tryUseTotem(DamageSource source);
 
-    private static int VANILLA_PROTECTION = 4;
+    @Unique
+    private static final int VANILLA_PROTECTION = 4;
 
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -46,6 +48,17 @@ public abstract class LivingEntityMixin extends Entity {
             args.set(2, armor * ModConfigs.getFloat(ModConfigs.ARMOR_MODIFIER));
             args.set(3, armorToughness * ModConfigs.getFloat(ModConfigs.ARMOR_TOUGHNESS_MODIFIER));
         }
+    }
+
+    @ModifyVariable(method = "damage", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+    private float modifyMeleeDamage(float value, @Local(argsOnly = true) DamageSource source) {
+        if (source.isIndirect()) {
+            return value;
+        }
+        if (source.getSource() instanceof PlayerEntity || ModConfigs.getBool(ModConfigs.MODIFY_NON_PLAYER_ATTACK)) {
+            return value * ModConfigs.getFloat(ModConfigs.ATTACK_DAMAGE_MODIFIER);
+        }
+        return value;
     }
 
     @Redirect(method = "modifyAppliedDamage(Lnet/minecraft/entity/damage/DamageSource;F)F", at = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentHelper;getProtectionAmount(Ljava/lang/Iterable;Lnet/minecraft/entity/damage/DamageSource;)I"))
